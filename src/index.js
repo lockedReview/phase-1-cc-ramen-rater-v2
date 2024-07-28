@@ -7,11 +7,21 @@ then im going to need to create a new ramen, updating the json and page.
 */
 
 //codejs
+document.addEventListener("DOMContentLoaded",() => {
+  console.log("We good.")
+  fetch(`http://localhost:3000/ramens/2`)
+  .then((res)=> res.json())
+  .then((data)=>{
+      let randomData = data;
+     handleNaruto(randomData)
+      
+  })
+})
 
 const menu = document.getElementById("ramen-menu");
 const submitForm = document.getElementById('new-ramen');
 const submitButton = submitForm.querySelector('#submit-button');
-submitButton.addEventListener('click',(e)=>{
+submitButton.addEventListener("click",(e)=>{
   e.preventDefault();
   addSubmitListener(e);
 })
@@ -19,7 +29,18 @@ fetch("http://localhost:3000/ramens")
 .then(res=> res.json())
 .then((ramenData) => {displayRamens(ramenData)})
 
-
+const handleNaruto = function(ramen){
+  const ramenName = ramen.name;
+  const ramenRest = ramen.restaurant;
+  const ramenRating = ramen.rating;
+  const ramenComment = ramen.comment;
+  const ramenUrl = ramen.image; 
+  
+  const ramenImg = document.createElement('img');
+  
+  ramenImg.src= ramenUrl;
+  handleClick(ramen)
+}
 
 console.log(submitButton)
 
@@ -42,14 +63,14 @@ const addSubmitListener = (e) => {
   // Add code
   console.log('addSubmitListener called');
    
-  console.log('click')
+  console.log(e)
   const newRamen = document.createElement('img');
   newRamen.src = e.target.parentNode.children[6].value;
   menu.appendChild(newRamen);
 
 
-  const ramenForm = e.target.parentNode;
-  newRamen.addEventListener('click',()=>{
+const ramenForm = e.target.parentNode;
+newRamen.addEventListener('click',()=>{
 
     console.log('click');
     const ramenCommentLine = document.getElementById('comment-display');
@@ -97,7 +118,7 @@ const main = () => {
   addSubmitListener();
 }
 
-main()
+main() 
 
 // Export functions for testing
 export {
